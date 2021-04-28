@@ -2,6 +2,6 @@ obj
 bin
 Obj
 Bin
-.cbp
-.layout
-.depend
+*.cbp
+*.layout
+*.depend
