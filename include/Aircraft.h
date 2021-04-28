@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Entity.h"
+#include "character.h"
 #include "texture_holder.h"
 
 
-class Aircraft : public Entity
+class Aircraft : public Character
 {
     public:
         enum Type

@@ -45,7 +45,7 @@ void World::buildScene()
     std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, mTextures));
     mPlayerAircraft = leader.get();
     mPlayerAircraft->setPosition(mSpawnPosition);
-    mPlayerAircraft->setVelocity(0.f, mScrollSpeed);
+    mPlayerAircraft->set_velocity(0.f, mScrollSpeed);
     mSceneLayers[Air]->attachChild(std::move(leader));
 
     std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures));
@@ -67,7 +67,7 @@ void World::update(sf::Time dt)
 {
     mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
     sf::Vector2f position = mPlayerAircraft->getPosition();
-    sf::Vector2f velocity = mPlayerAircraft->getVelocity();
+    sf::Vector2f velocity = mPlayerAircraft->get_velocity();
 
     std::cout << "\nPosition is: (" << position.x << "," << position.y << ")";
     std::cout << "\nVelocity is: (" << velocity.x << "," << velocity.y << ")";
@@ -75,7 +75,7 @@ void World::update(sf::Time dt)
     if (position.x <= mWorldBounds.left + 150 || position.x >= mWorldBounds.left + mWorldBounds.width - 150)
     {
         velocity.x = -velocity.x;
-        mPlayerAircraft->setVelocity(velocity);
+        mPlayerAircraft->set_velocity(velocity);
         mPlayerAircraft->updateCurrent(dt);
     }
     mSceneGraph.update(dt);
