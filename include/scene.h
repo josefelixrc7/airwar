@@ -1,5 +1,5 @@
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef SCENE_H
+#define SCENE_H
 
 #include <iostream>
 
@@ -10,10 +10,11 @@
 #include "Aircraft.h"
 #include "element.h"
 
-class World : private sf::NonCopyable
+class Scene : private sf::NonCopyable
 {
     public:
-        explicit World(sf::RenderWindow& window);
+        explicit Scene(sf::RenderWindow& window);
+
         void update(sf::Time dt);
         void draw();
 
@@ -34,14 +35,14 @@ class World : private sf::NonCopyable
 
     private:
         sf::RenderWindow&   mWindow;
-        sf::View            mWorldView;
+        sf::View            mSceneView;
         TextureHolder       mTextures;
         SceneNode           mSceneGraph;
         std::array<SceneNode*, LayerCount> mSceneLayers;
-        sf::FloatRect mWorldBounds;
+        sf::FloatRect mSceneBounds;
         sf::Vector2f mSpawnPosition;
         float mScrollSpeed;
         Aircraft* mPlayerAircraft;
 };
 
-#endif // WORLD_H
+#endif // SCENE_H

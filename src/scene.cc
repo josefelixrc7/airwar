@@ -1,31 +1,31 @@
-#include "World.h"
+#include "scene.h"
 
-World::World(sf::RenderWindow& window)
+Scene::Scene(sf::RenderWindow& window)
 :
     mWindow(window),
-    mWorldView(window.getDefaultView()),
-    mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 5000.f),
+    mSceneView(window.getDefaultView()),
+    mSceneBounds(0.f, 0.f, mSceneView.getSize().x, 5000.f),
     mSpawnPosition
     (
-        mWorldView.getSize().x / 2.f,
-        mWorldBounds.height - mWorldView.getSize().y
+        mSceneView.getSize().x / 2.f,
+        mSceneBounds.height - mSceneView.getSize().y
     ),
     mPlayerAircraft(nullptr)
 {
     mScrollSpeed = -100.f;
     loadTextures();
     buildScene();
-    mWorldView.setCenter(mSpawnPosition);
+    mSceneView.setCenter(mSpawnPosition);
 }
 
-void World::loadTextures()
+void Scene::loadTextures()
 {
     mTextures.Load_(Textures::Eagle, "share/Eagle.png");
     mTextures.Load_(Textures::Raptor, "share/Raptor.png");
     mTextures.Load_(Textures::Desert, "share/Desert.png");
 }
 
-void World::buildScene()
+void Scene::buildScene()
 {
     for (std::size_t i = 0; i < LayerCount; ++i)
     {
@@ -35,11 +35,11 @@ void World::buildScene()
     }
 
     sf::Texture& texture = mTextures.Get_(Textures::Desert);
-    sf::IntRect textureRect(mWorldBounds);
+    sf::IntRect textureRect(mSceneBounds);
     texture.setRepeated(true);
 
     std::unique_ptr<Element> backgroundSprite(new Element(texture, textureRect));
-    backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
+    backgroundSprite->setPosition(mSceneBounds.left, mSceneBounds.top);
     mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 
     std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, mTextures));
@@ -57,22 +57,22 @@ void World::buildScene()
     mPlayerAircraft->attachChild(std::move(rightEscort));
 }
 
-void World::draw()
+void Scene::draw()
 {
-    mWindow.setView(mWorldView);
+    mWindow.setView(mSceneView);
     mWindow.draw(mSceneGraph);
 }
 
-void World::update(sf::Time dt)
+void Scene::update(sf::Time dt)
 {
-    mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
+    mSceneView.move(0.f, mScrollSpeed * dt.asSeconds());
     sf::Vector2f position = mPlayerAircraft->getPosition();
     sf::Vector2f velocity = mPlayerAircraft->get_velocity();
 
     std::cout << "\nPosition is: (" << position.x << "," << position.y << ")";
     std::cout << "\nVelocity is: (" << velocity.x << "," << velocity.y << ")";
 
-    if (position.x <= mWorldBounds.left + 150 || position.x >= mWorldBounds.left + mWorldBounds.width - 150)
+    if (position.x <= mSceneBounds.left + 150 || position.x >= mSceneBounds.left + mSceneBounds.width - 150)
     {
         velocity.x = -velocity.x;
         mPlayerAircraft->set_velocity(velocity);
@@ -81,7 +81,7 @@ void World::update(sf::Time dt)
     mSceneGraph.update(dt);
 }
 
-Aircraft* World::get_mPlayerAircraft() const
+Aircraft* Scene::get_mPlayerAircraft() const
 {
     return mPlayerAircraft;
 }
