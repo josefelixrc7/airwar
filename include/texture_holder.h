@@ -20,12 +20,12 @@ class TextureHolder
 {
     public:
         TextureHolder();
-        void load(Textures::ID id, const std::string& filename);
-        sf::Texture& get(Textures::ID id);
-        const sf::Texture& get(Textures::ID id) const;
+        void Load_(Textures::ID id, const std::string& filename);
+        sf::Texture& Get_(Textures::ID id);
+        const sf::Texture& Get_(Textures::ID id) const;
 
 	private:
-		std::map<Textures::ID, std::unique_ptr<sf::Texture>> mTextureMap;
+		std::map<Textures::ID, std::unique_ptr<sf::Texture>> textures_colector_;
 };
 
 #endif // TEXTUREHOLDER_H

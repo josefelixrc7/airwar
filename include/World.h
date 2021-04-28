@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "ResourceHolder.h"
+#include "texture_holder.h"
 #include "SceneNode.h"
 #include "Aircraft.h"
 #include "SpriteNode.h"

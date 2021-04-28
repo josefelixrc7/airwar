@@ -4,14 +4,12 @@
 #include <SFML/Graphics.hpp>
 
 #include "Entity.h"
-#include "ResourceHolder.h"
-#include "TextureHolder.h"
+#include "texture_holder.h"
 
 
 class Aircraft : public Entity
 {
     public:
-        //typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
         enum Type
         {
             Eagle,

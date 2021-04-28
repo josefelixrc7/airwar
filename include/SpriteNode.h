@@ -1,10 +1,11 @@
 #ifndef SPRITENODE_H
 #define SPRITENODE_H
 
+
 #include <SFML/Graphics.hpp>
 
 #include "SceneNode.h"
-#include "TextureHolder.h"
+
 
 class SpriteNode : public SceneNode
 {

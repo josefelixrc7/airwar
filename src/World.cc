@@ -20,9 +20,9 @@ World::World(sf::RenderWindow& window)
 
 void World::loadTextures()
 {
-    mTextures.load(Textures::Eagle, "share/Eagle.png");
-    mTextures.load(Textures::Raptor, "share/Raptor.png");
-    mTextures.load(Textures::Desert, "share/Desert.png");
+    mTextures.Load_(Textures::Eagle, "share/Eagle.png");
+    mTextures.Load_(Textures::Raptor, "share/Raptor.png");
+    mTextures.Load_(Textures::Desert, "share/Desert.png");
 }
 
 void World::buildScene()
@@ -34,7 +34,7 @@ void World::buildScene()
         mSceneGraph.attachChild(std::move(layer));
     }
 
-    sf::Texture& texture = mTextures.get(Textures::Desert);
+    sf::Texture& texture = mTextures.Get_(Textures::Desert);
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 

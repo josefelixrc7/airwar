@@ -3,7 +3,7 @@
 
 Aircraft::Aircraft(Aircraft::Type type, TextureHolder& textures):
     mType(type),
-    mSprite(textures.get(toTextureID(type)))
+    mSprite(textures.Get_(toTextureID(type)))
 {
 }
 
