@@ -38,7 +38,7 @@ void World::buildScene()
     sf::IntRect textureRect(mWorldBounds);
     texture.setRepeated(true);
 
-    std::unique_ptr<SpriteNode> backgroundSprite(new SpriteNode(texture, textureRect));
+    std::unique_ptr<Element> backgroundSprite(new Element(texture, textureRect));
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
 

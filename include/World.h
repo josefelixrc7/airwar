@@ -8,7 +8,7 @@
 #include "texture_holder.h"
 #include "SceneNode.h"
 #include "Aircraft.h"
-#include "SpriteNode.h"
+#include "element.h"
 
 class World : private sf::NonCopyable
 {
