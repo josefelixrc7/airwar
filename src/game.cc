@@ -5,8 +5,6 @@ Game::Game() :
 	render_window_(sf::VideoMode(1080, 720), "SFML Application"),
 	scene_world_(render_window_)
 {
-	player_velocity_.x = 300.f;
-	player_velocity_.y = 300.f;
 	time_per_frame_ = sf::seconds(1.f / 60.f);
 }
 
@@ -36,10 +34,10 @@ void Game::ProcessEvents_()
 		switch (event.type)
 		{
 			case sf::Event::KeyPressed:
-				HandlePlayerInput_(event.key.code, true);
+				scene_world_.HandlePlayerInput_(event.key.code, true);
 			break;
 			case sf::Event::KeyReleased:
-				HandlePlayerInput_(event.key.code, false);
+				scene_world_.HandlePlayerInput_(event.key.code, false);
 			break;
 			case sf::Event::Closed:
 				render_window_.close();
@@ -51,17 +49,6 @@ void Game::ProcessEvents_()
 void Game::Update_(sf::Time deltaTime)
 {
     scene_world_.Update_(time_per_frame_);
-
-	sf::Vector2f movement(0.f, 0.f);
-	if(is_moving_up_)
-		movement.y -= player_velocity_.y;
-	if(is_moving_down_)
-		movement.y += player_velocity_.y;
-	if(is_moving_left_)
-		movement.x -= player_velocity_.x;
-	if(is_moving_right_)
-		movement.x += player_velocity_.x;
-	scene_world_.get_player()->move(movement * deltaTime.asSeconds());
 }
 
 void Game::Render_()
@@ -70,16 +57,4 @@ void Game::Render_()
     scene_world_.Draw_();
     render_window_.setView(render_window_.getDefaultView());
     render_window_.display();
-}
-
-void Game::HandlePlayerInput_(sf::Keyboard::Key key, bool is_pressed)
-{
-	if (key == sf::Keyboard::W)
-		is_moving_up_ = is_pressed;
-	else if (key == sf::Keyboard::S)
-		is_moving_down_ = is_pressed;
-	else if (key == sf::Keyboard::A)
-		is_moving_left_ = is_pressed;
-	else if (key == sf::Keyboard::D)
-		is_moving_right_ = is_pressed;
 }
