@@ -41,6 +41,7 @@ void Scene::Update_(sf::Time delta_time)
         player_->set_velocity(velocity);
         player_->UpdateCurrent_(delta_time);
     }
+
     sequences_root_.Update_(delta_time);
 }
 
@@ -78,13 +79,26 @@ void Scene::FillLayers_()
 
 void Scene::CreateElements_()
 {
-    sf::IntRect texture_rect(scene_bounds_);
-    textures_holder_.Get_(Textures::kSky).setRepeated(true);
+    sf::IntRect rect_sky(0.f, 0.f, scene_view_.getSize().x, scene_view_.getSize().y);
+    sf::IntRect rect_total(scene_bounds_);
 
-    std::unique_ptr<Element> background_sprite(new Element(Textures::kSky, textures_holder_, texture_rect));
-    background_sprite->setPosition(scene_bounds_.left, scene_bounds_.top);
-    scene_layers_[kBackground]->AttachChild_(std::move(background_sprite));
+    textures_holder_.Get_(Textures::kMountains1).setRepeated(true);
+    textures_holder_.Get_(Textures::kMountains2).setRepeated(true);
 
+    std::unique_ptr<Element> sky(new Element(Textures::kSky, textures_holder_, rect_sky));
+    sky->setPosition(scene_bounds_.left, scene_bounds_.top);
+    sky->set_velocity(scroll_velocity_.x, 0.f);
+    scene_layers_[kBackground]->AttachChild_(std::move(sky));
+
+    std::unique_ptr<Element> mountain_1(new Element(Textures::kMountains1, textures_holder_, rect_total));
+    mountain_1->setPosition(scene_bounds_.left, scene_bounds_.top);
+    mountain_1->set_velocity(-scroll_velocity_.x / 7.f, 0.f);
+    scene_layers_[kBackground]->AttachChild_(std::move(mountain_1));
+
+    std::unique_ptr<Element> mountain_2(new Element(Textures::kMountains2, textures_holder_, rect_total));
+    mountain_2->setPosition(scene_bounds_.left, scene_bounds_.top);
+    mountain_2->set_velocity(-scroll_velocity_.x * 3.f, 0.f);
+    scene_layers_[kBackground]->AttachChild_(std::move(mountain_2));
 }
 
 void Scene::CreateCharacters_()
