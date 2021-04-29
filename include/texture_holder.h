@@ -7,12 +7,11 @@ namespace Textures
 {
 	enum ID
 	{
-	    kLandscape,
-	    kAirplane,
-	    kMissile,
-        kEagle,
-        kRaptor,
-        kDesert
+	    kSky,
+	    kMountains1,
+	    kMountains2,
+	    kAircraftEagle,
+	    kRaptorEnemy
     };
 }
 

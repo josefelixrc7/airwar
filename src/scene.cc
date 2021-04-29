@@ -35,12 +35,12 @@ void Scene::Update_(sf::Time delta_time)
     std::cout << "\nSceneView xy (" << scene_view_.getSize().x << "," << scene_view_.getSize().y << ")";
     std::cout << "\nSceneBounds width, height (" << scene_bounds_.width << "," << scene_bounds_.height << ")";
 
-    /*if (position.x <= scene_bounds_.left + 150 || position.x >= scene_bounds_.left + scene_bounds_.width - 150)
+    if (position.y <= scene_bounds_.top + 150 || position.y >= scene_bounds_.top + scene_bounds_.height - 150)
     {
-        velocity.x = -velocity.x;
+        velocity.y = -velocity.y;
         player_->set_velocity(velocity);
         player_->UpdateCurrent_(delta_time);
-    }*/
+    }
     sequences_root_.Update_(delta_time);
 }
 
@@ -52,9 +52,11 @@ void Scene::Draw_()
 
 void Scene::LoadTextures_()
 {
-    textures_holder_.Load_(Textures::kEagle, "share/Eagle.png");
-    textures_holder_.Load_(Textures::kRaptor, "share/Raptor.png");
-    textures_holder_.Load_(Textures::kDesert, "share/Desert.png");
+    textures_holder_.Load_(Textures::kSky, "share/sky.png");
+    textures_holder_.Load_(Textures::kMountains1, "share/mountains_1.png");
+    textures_holder_.Load_(Textures::kMountains2, "share/mountains_2.png");
+    textures_holder_.Load_(Textures::kAircraftEagle, "share/aircraft_eagle.png");
+    textures_holder_.Load_(Textures::kRaptorEnemy, "share/raptor_enemy.png");
 }
 
 void Scene::BuildScene_()
@@ -77,9 +79,9 @@ void Scene::FillLayers_()
 void Scene::CreateElements_()
 {
     sf::IntRect texture_rect(scene_bounds_);
-    textures_holder_.Get_(Textures::kDesert).setRepeated(true);
+    textures_holder_.Get_(Textures::kSky).setRepeated(true);
 
-    std::unique_ptr<Element> background_sprite(new Element(Textures::kDesert, textures_holder_, texture_rect));
+    std::unique_ptr<Element> background_sprite(new Element(Textures::kSky, textures_holder_, texture_rect));
     background_sprite->setPosition(scene_bounds_.left, scene_bounds_.top);
     scene_layers_[kBackground]->AttachChild_(std::move(background_sprite));
 
@@ -88,7 +90,7 @@ void Scene::CreateElements_()
 void Scene::CreateCharacters_()
 {
 	// Character 1: Leader
-		std::unique_ptr<Aircraft> leader(new Aircraft(Textures::kEagle, textures_holder_));
+		std::unique_ptr<Aircraft> leader(new Aircraft(Textures::kAircraftEagle, textures_holder_));
 		player_ = leader.get();
 		player_->setPosition(spawn_position_);
 		player_->set_velocity(scroll_velocity_.x, 0.f);
@@ -97,12 +99,12 @@ void Scene::CreateCharacters_()
 		scene_layers_[kAir]->AttachChild_(std::move(leader));
 
 	// Character 2: Left Scort
-		std::unique_ptr<Aircraft> left_escort(new Aircraft(Textures::kRaptor, textures_holder_));
+		std::unique_ptr<Aircraft> left_escort(new Aircraft(Textures::kRaptorEnemy, textures_holder_));
 		left_escort->setPosition(-80.f, 50.f);
 		player_->AttachChild_(std::move(left_escort));
 
 	// Character 3: Right Scort
-		std::unique_ptr<Aircraft> right_escort(new Aircraft(Textures::kRaptor, textures_holder_));
+		std::unique_ptr<Aircraft> right_escort(new Aircraft(Textures::kRaptorEnemy, textures_holder_));
 		right_escort->setPosition(80.f, 50.f);
 		player_->AttachChild_(std::move(right_escort));
 }
