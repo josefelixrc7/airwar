@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SceneNode.h"
+#include "sequence_tree.h"
 
-class Character : public SceneNode
+class Character : public SequenceTree
 {
 	public:
         Character();

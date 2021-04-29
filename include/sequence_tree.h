@@ -1,20 +1,20 @@
-#ifndef SCENENODE_H
-#define SCENENODE_H
+#ifndef SEQUENCETREE_H
+#define SEQUENCETREE_H
 
 #include <SFML/Graphics.hpp>
 
-class SceneNode :
+class SequenceTree :
 	public sf::Transformable,
 	public sf::Drawable,
 	private sf::NonCopyable
 {
 	public:
-		typedef std::unique_ptr<SceneNode> Ptr;
+		typedef std::unique_ptr<SequenceTree> UniqueSequence;
 
 	public:
-		SceneNode();
-		void attachChild(Ptr child);
-		Ptr detachChild(const SceneNode& node);
+		SequenceTree();
+		void attachChild(UniqueSequence child);
+		UniqueSequence detachChild(const SequenceTree& node);
 		void update(sf::Time dt);
 		sf::Transform getWorldTransform() const;
 		sf::Vector2f getWorldPosition() const;
@@ -26,8 +26,8 @@ class SceneNode :
 		void updateChildren(sf::Time dt);
 
 	private:
-		std::vector<Ptr> mChildren;
-		SceneNode* mParent;
+		std::vector<UniqueSequence> mChildren;
+		SequenceTree* mParent;
 };
 
-#endif // SCENENODE_H
+#endif // SEQUENCETREE_H

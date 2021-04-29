@@ -4,10 +4,10 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SceneNode.h"
+#include "sequence_tree.h"
 
 
-class Element : public SceneNode
+class Element : public SequenceTree
 {
     public:
         explicit Element(const sf::Texture& texture);

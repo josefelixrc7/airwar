@@ -29,7 +29,7 @@ void Scene::BuildScene_()
 {
     for (std::size_t i = 0; i < LayerCount; ++i)
     {
-        SceneNode::Ptr layer(new SceneNode());
+        SequenceTree::UniqueSequence layer(new SequenceTree());
         scene_layers_[i] = layer.get();
         sequences_root_.attachChild(std::move(layer));
     }
