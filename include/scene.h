@@ -5,7 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "texture_holder.h"
+#include "resource_holder.h"
 #include "sequence_tree.h"
 #include "aircraft.h"
 #include "element.h"
@@ -38,7 +38,7 @@ class Scene : private sf::NonCopyable
 
         sf::RenderWindow& render_window_;
         sf::View scene_view_;
-        TextureHolder textures_holder_;
+        ResourceHolder<sf::Texture, Textures::ID> textures_holder_;
         SequenceTree sequences_root_;
         std::array<SequenceTree*, kLayerCount> scene_layers_;
         sf::FloatRect scene_bounds_;

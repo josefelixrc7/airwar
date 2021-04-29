@@ -5,15 +5,15 @@
 #include <SFML/Graphics.hpp>
 
 #include "sequence_tree.h"
-#include "texture_holder.h"
+#include "resource_holder.h"
 
 
 class Element : public SequenceTree
 {
     public:
-		Element(Textures::ID type, TextureHolder& textures);
+		Element(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& textures);
 		Element(Textures::ID type, sf::Texture& texture);
-		Element(Textures::ID type, TextureHolder& texture, const sf::IntRect& rect);
+		Element(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& texture, const sf::IntRect& rect);
 
 		sf::Vector2f get_velocity() const;
 

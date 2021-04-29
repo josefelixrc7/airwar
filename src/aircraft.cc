@@ -1,7 +1,7 @@
 #include "aircraft.h"
 
 
-Aircraft::Aircraft(Textures::ID type, TextureHolder& textures):
+Aircraft::Aircraft(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& textures):
     type_(type),
     sprite_(textures.Get_(type_))
 {
