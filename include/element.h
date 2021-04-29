@@ -15,10 +15,18 @@ class Element : public SequenceTree
 		Element(Textures::ID type, sf::Texture& texture);
 		Element(Textures::ID type, TextureHolder& texture, const sf::IntRect& rect);
 
-    private:
+		sf::Vector2f get_velocity() const;
+
+		void set_velocity(sf::Vector2f velocity);
+		void set_velocity(float vx, float vy);
+
+        virtual void UpdateCurrent_(sf::Time delta_time);
+
+    protected:
         virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
+    	sf::Vector2f velocity_;
     	Textures::ID type_;
         sf::Sprite sprite_;
 };

@@ -21,7 +21,27 @@ Element::Element(Textures::ID type, TextureHolder& textures, const sf::IntRect& 
 
 }
 
+sf::Vector2f Element::get_velocity() const
+{
+	return velocity_;
+}
+
+void Element::set_velocity(sf::Vector2f velocity)
+{
+	velocity_ = velocity;
+}
+void Element::set_velocity(float vx, float vy)
+{
+	velocity_.x = vx;
+	velocity_.y = vy;
+}
+
 void Element::DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(sprite_, states);
+}
+
+void Element::UpdateCurrent_(sf::Time delta_time)
+{
+    move(velocity_ * delta_time.asSeconds());
 }
