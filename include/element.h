@@ -17,7 +17,7 @@ class Element : public SequenceTree
         virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
-        sf::Sprite mSprite;
+        sf::Sprite sprite_;
 };
 
 #endif // ELEMENT_H

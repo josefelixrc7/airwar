@@ -21,10 +21,10 @@ class Aircraft : public Character
 		virtual ~Aircraft();
 
         virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
-        Textures::ID toTextureID(Type type);
+        Textures::ID ToTextureID_();
 
 	private:
-		Type mType;
-        sf::Sprite mSprite;
+		Type type_;
+        sf::Sprite sprite_;
 };
 #endif // AIRCRAFT_H

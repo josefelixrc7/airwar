@@ -2,30 +2,30 @@
 
 
 Aircraft::Aircraft(Aircraft::Type type, TextureHolder& textures):
-    mType(type),
-    mSprite(textures.Get_(toTextureID(type)))
+    type_(type),
+    sprite_(textures.Get_(ToTextureID_()))
 {
 }
 
 Aircraft::Aircraft(Aircraft::Type type, sf::Texture& texture):
-    mType(type),
-    mSprite(texture)
+    type_(type),
+    sprite_(texture)
 {
 }
 
 Aircraft::~Aircraft()
 {
-    //dtor
+
 }
 
 void Aircraft::DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    target.draw(mSprite, states);
+    target.draw(sprite_, states);
 }
 
-Textures::ID Aircraft::toTextureID(Aircraft::Type type)
+Textures::ID Aircraft::ToTextureID_()
 {
-    switch (type)
+    switch (type_)
     {
         case Aircraft::Eagle:
             return Textures::Eagle;
