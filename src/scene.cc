@@ -4,15 +4,16 @@ Scene::Scene(sf::RenderWindow& window)
 :
     render_window_(window),
     scene_view_(window.getDefaultView()),
-    scene_bounds_(0.f, 0.f, scene_view_.getSize().x, 5000.f),
+    scene_bounds_(0.f, 0.f, 5000.f, scene_view_.getSize().y),
     spawn_position_
     (
         scene_view_.getSize().x / 2.f,
-        scene_bounds_.height - scene_view_.getSize().y
+        scene_view_.getSize().y / 2
     ),
     player_(nullptr)
 {
-    scroll_velocity_ = -100.f;
+    scroll_velocity_.x = 100.f;
+    scroll_velocity_.y = 0.f;
     LoadTextures_();
     BuildScene_();
     scene_view_.setCenter(spawn_position_);
@@ -25,19 +26,21 @@ Aircraft* Scene::get_player() const
 
 void Scene::Update_(sf::Time delta_time)
 {
-    scene_view_.move(0.f, scroll_velocity_ * delta_time.asSeconds());
+    scene_view_.move(scroll_velocity_.x * delta_time.asSeconds(), 0.f);
     sf::Vector2f position = player_->getPosition();
     sf::Vector2f velocity = player_->get_velocity();
 
     std::cout << "\nPosition is: (" << position.x << "," << position.y << ")";
     std::cout << "\nVelocity is: (" << velocity.x << "," << velocity.y << ")";
+    std::cout << "\nSceneView xy (" << scene_view_.getSize().x << "," << scene_view_.getSize().y << ")";
+    std::cout << "\nSceneBounds width, height (" << scene_bounds_.width << "," << scene_bounds_.height << ")";
 
-    if (position.x <= scene_bounds_.left + 150 || position.x >= scene_bounds_.left + scene_bounds_.width - 150)
+    /*if (position.x <= scene_bounds_.left + 150 || position.x >= scene_bounds_.left + scene_bounds_.width - 150)
     {
         velocity.x = -velocity.x;
         player_->set_velocity(velocity);
         player_->UpdateCurrent_(delta_time);
-    }
+    }*/
     sequences_root_.Update_(delta_time);
 }
 
@@ -88,7 +91,9 @@ void Scene::CreateCharacters_()
 		std::unique_ptr<Aircraft> leader(new Aircraft(Textures::kEagle, textures_holder_));
 		player_ = leader.get();
 		player_->setPosition(spawn_position_);
-		player_->set_velocity(0.f, scroll_velocity_);
+		player_->set_velocity(scroll_velocity_.x, 0.f);
+		player_->setOrigin(64.f, 64.f);
+
 		scene_layers_[kAir]->AttachChild_(std::move(leader));
 
 	// Character 2: Left Scort

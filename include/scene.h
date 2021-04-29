@@ -43,7 +43,7 @@ class Scene : private sf::NonCopyable
         std::array<SequenceTree*, kLayerCount> scene_layers_;
         sf::FloatRect scene_bounds_;
         sf::Vector2f spawn_position_;
-        float scroll_velocity_;
+        sf::Vector2f scroll_velocity_;
         Aircraft* player_;
 };
 
