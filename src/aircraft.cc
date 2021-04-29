@@ -1,4 +1,4 @@
-#include "Aircraft.h"
+#include "aircraft.h"
 
 
 Aircraft::Aircraft(Aircraft::Type type, TextureHolder& textures):
@@ -18,7 +18,7 @@ Aircraft::~Aircraft()
     //dtor
 }
 
-void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+void Aircraft::DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(mSprite, states);
 }

@@ -16,11 +16,11 @@ class Aircraft : public Character
             Raptor,
         };
 
-	public:
 		Aircraft(Type type, TextureHolder& textures);
 		Aircraft(Type type, sf::Texture& texture);
 		virtual ~Aircraft();
-        virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+
+        virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
         Textures::ID toTextureID(Type type);
 
 	private:

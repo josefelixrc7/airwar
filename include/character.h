@@ -17,7 +17,7 @@ class Character : public SequenceTree
 		void set_velocity(float vx, float vy);
 
     public:
-        virtual void updateCurrent(sf::Time dt);
+        virtual void UpdateCurrent_(sf::Time delta_time);
 
 	private:
 		sf::Vector2f velocity_;

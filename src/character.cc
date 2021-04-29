@@ -2,12 +2,12 @@
 
 Character::Character()
 {
-    //ctor
+
 }
 
 Character::~Character()
 {
-    //dtor
+
 }
 
 sf::Vector2f Character::get_velocity() const
@@ -26,7 +26,7 @@ void Character::set_velocity(float vx, float vy)
 	velocity_.y = vy;
 }
 
-void Character::updateCurrent(sf::Time dt)
+void Character::UpdateCurrent_(sf::Time delta_time)
 {
-    move(velocity_ * dt.asSeconds());
+    move(velocity_ * delta_time.asSeconds());
 }

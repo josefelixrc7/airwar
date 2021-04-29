@@ -31,7 +31,7 @@ void Scene::BuildScene_()
     {
         SequenceTree::UniqueSequence layer(new SequenceTree());
         scene_layers_[i] = layer.get();
-        sequences_root_.attachChild(std::move(layer));
+        sequences_root_.AttachChild_(std::move(layer));
     }
 
     sf::Texture& texture = textures_holder_.Get_(Textures::Desert);
@@ -40,21 +40,21 @@ void Scene::BuildScene_()
 
     std::unique_ptr<Element> backgroundSprite(new Element(texture, textureRect));
     backgroundSprite->setPosition(scene_bounds_.left, scene_bounds_.top);
-    scene_layers_[Background]->attachChild(std::move(backgroundSprite));
+    scene_layers_[Background]->AttachChild_(std::move(backgroundSprite));
 
     std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, textures_holder_));
     player_ = leader.get();
     player_->setPosition(spawn_position_);
     player_->set_velocity(0.f, scroll_velocity_);
-    scene_layers_[Air]->attachChild(std::move(leader));
+    scene_layers_[Air]->AttachChild_(std::move(leader));
 
     std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, textures_holder_));
     leftEscort->setPosition(-80.f, 50.f);
-    player_->attachChild(std::move(leftEscort));
+    player_->AttachChild_(std::move(leftEscort));
 
     std::unique_ptr<Aircraft> rightEscort(new Aircraft(Aircraft::Raptor, textures_holder_));
     rightEscort->setPosition(80.f, 50.f);
-    player_->attachChild(std::move(rightEscort));
+    player_->AttachChild_(std::move(rightEscort));
 }
 
 void Scene::Draw_()
@@ -63,9 +63,9 @@ void Scene::Draw_()
     render_window_.draw(sequences_root_);
 }
 
-void Scene::Update_(sf::Time dt)
+void Scene::Update_(sf::Time delta_time)
 {
-    scene_view_.move(0.f, scroll_velocity_ * dt.asSeconds());
+    scene_view_.move(0.f, scroll_velocity_ * delta_time.asSeconds());
     sf::Vector2f position = player_->getPosition();
     sf::Vector2f velocity = player_->get_velocity();
 
@@ -76,9 +76,9 @@ void Scene::Update_(sf::Time dt)
     {
         velocity.x = -velocity.x;
         player_->set_velocity(velocity);
-        player_->updateCurrent(dt);
+        player_->UpdateCurrent_(delta_time);
     }
-    sequences_root_.update(dt);
+    sequences_root_.Update_(delta_time);
 }
 
 Aircraft* Scene::get_player() const

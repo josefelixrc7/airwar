@@ -11,23 +11,22 @@ class SequenceTree :
 	public:
 		typedef std::unique_ptr<SequenceTree> UniqueSequence;
 
-	public:
 		SequenceTree();
-		void attachChild(UniqueSequence child);
-		UniqueSequence detachChild(const SequenceTree& node);
-		void update(sf::Time dt);
-		sf::Transform getWorldTransform() const;
-		sf::Vector2f getWorldPosition() const;
+
+		void AttachChild_(UniqueSequence child);
+		UniqueSequence DetachChild_(const SequenceTree& node);
+		void Update_(sf::Time dt);
+		sf::Transform GetWorldTransform_() const;
+		sf::Vector2f GetWorldPosition_() const;
 
 	private:
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-		virtual void updateCurrent(sf::Time dt);
-		void updateChildren(sf::Time dt);
+		virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual void UpdateCurrent_(sf::Time dt);
+		void UpdateChildren_(sf::Time dt);
 
-	private:
-		std::vector<UniqueSequence> mChildren;
-		SequenceTree* mParent;
+		std::vector<UniqueSequence> children_colector_;
+		SequenceTree* parent_;
 };
 
 #endif // SEQUENCETREE_H

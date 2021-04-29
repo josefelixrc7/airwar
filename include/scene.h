@@ -7,7 +7,7 @@
 
 #include "texture_holder.h"
 #include "sequence_tree.h"
-#include "Aircraft.h"
+#include "aircraft.h"
 #include "element.h"
 
 class Scene : private sf::NonCopyable
