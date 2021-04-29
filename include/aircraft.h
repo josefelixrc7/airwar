@@ -10,21 +10,14 @@
 class Aircraft : public Character
 {
     public:
-        enum Type
-        {
-            Eagle,
-            Raptor,
-        };
-
-		Aircraft(Type type, TextureHolder& textures);
-		Aircraft(Type type, sf::Texture& texture);
+		Aircraft(Textures::ID type, TextureHolder& textures);
+		Aircraft(Textures::ID type, sf::Texture& texture);
 		virtual ~Aircraft();
 
         virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
-        Textures::ID ToTextureID_();
 
 	private:
-		Type type_;
+		Textures::ID type_;
         sf::Sprite sprite_;
 };
 #endif // AIRCRAFT_H

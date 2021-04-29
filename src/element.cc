@@ -1,13 +1,24 @@
 #include "element.h"
 
-Element::Element(const sf::Texture& texture) :
-    sprite_(texture)
+Element::Element(Textures::ID type, TextureHolder& textures) :
+    type_(type),
+    sprite_(textures.Get_(type_))
 {
+
 }
 
-Element::Element(const sf::Texture& texture, const sf::IntRect& rect) :
-    sprite_(texture, rect)
+Element::Element(Textures::ID type, sf::Texture& texture) :
+    type_(type),
+    sprite_(texture)
 {
+
+}
+
+Element::Element(Textures::ID type, TextureHolder& textures, const sf::IntRect& rect) :
+    type_(type),
+    sprite_(textures.Get_(type), rect)
+{
+
 }
 
 void Element::DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const
