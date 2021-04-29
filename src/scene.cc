@@ -79,23 +79,23 @@ void Scene::FillLayers_()
 
 void Scene::CreateElements_()
 {
-    sf::IntRect rect_sky(0.f, 0.f, scene_view_.getSize().x, scene_view_.getSize().y);
-    sf::IntRect rect_total(scene_bounds_);
+    sf::IntRect size_sky(0.f, 0.f, scene_view_.getSize().x, scene_view_.getSize().y);
+    sf::IntRect size_mountain_1(scene_bounds_);
+    sf::IntRect size_mountain_2(scene_bounds_.left, scene_bounds_.top, 20000.f, scene_view_.getSize().y);
 
     textures_holder_.Get_(Textures::kMountains1).setRepeated(true);
     textures_holder_.Get_(Textures::kMountains2).setRepeated(true);
 
-    std::unique_ptr<Element> sky(new Element(Textures::kSky, textures_holder_, rect_sky));
+    std::unique_ptr<Element> sky(new Element(Textures::kSky, textures_holder_, size_sky));
     sky->setPosition(scene_bounds_.left, scene_bounds_.top);
     sky->set_velocity(scroll_velocity_.x, 0.f);
     scene_layers_[kBackground]->AttachChild_(std::move(sky));
 
-    std::unique_ptr<Element> mountain_1(new Element(Textures::kMountains1, textures_holder_, rect_total));
+    std::unique_ptr<Element> mountain_1(new Element(Textures::kMountains1, textures_holder_, size_mountain_1));
     mountain_1->setPosition(scene_bounds_.left, scene_bounds_.top);
-    mountain_1->set_velocity(-scroll_velocity_.x / 7.f, 0.f);
     scene_layers_[kBackground]->AttachChild_(std::move(mountain_1));
 
-    std::unique_ptr<Element> mountain_2(new Element(Textures::kMountains2, textures_holder_, rect_total));
+    std::unique_ptr<Element> mountain_2(new Element(Textures::kMountains2, textures_holder_, size_mountain_2));
     mountain_2->setPosition(scene_bounds_.left, scene_bounds_.top);
     mountain_2->set_velocity(-scroll_velocity_.x * 3.f, 0.f);
     scene_layers_[kBackground]->AttachChild_(std::move(mountain_2));
