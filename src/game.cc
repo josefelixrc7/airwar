@@ -61,7 +61,7 @@ void Game::Update_(sf::Time deltaTime)
 		movement.x -= player_velocity_.x;
 	if(is_moving_right_)
 		movement.x += player_velocity_.x;
-	mWorld.get_mPlayerAircraft()->move(movement * deltaTime.asSeconds());
+	mWorld.get_player()->move(movement * deltaTime.asSeconds());
 }
 
 void Game::Render_()

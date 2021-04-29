@@ -2,27 +2,27 @@
 
 Scene::Scene(sf::RenderWindow& window)
 :
-    mWindow(window),
-    mSceneView(window.getDefaultView()),
-    mSceneBounds(0.f, 0.f, mSceneView.getSize().x, 5000.f),
-    mSpawnPosition
+    render_window_(window),
+    scene_view_(window.getDefaultView()),
+    scene_bounds_(0.f, 0.f, scene_view_.getSize().x, 5000.f),
+    spawn_position_
     (
-        mSceneView.getSize().x / 2.f,
-        mSceneBounds.height - mSceneView.getSize().y
+        scene_view_.getSize().x / 2.f,
+        scene_bounds_.height - scene_view_.getSize().y
     ),
-    mPlayerAircraft(nullptr)
+    player_(nullptr)
 {
-    mScrollSpeed = -100.f;
+    scroll_velocity_ = -100.f;
     loadTextures();
     buildScene();
-    mSceneView.setCenter(mSpawnPosition);
+    scene_view_.setCenter(spawn_position_);
 }
 
 void Scene::loadTextures()
 {
-    mTextures.Load_(Textures::Eagle, "share/Eagle.png");
-    mTextures.Load_(Textures::Raptor, "share/Raptor.png");
-    mTextures.Load_(Textures::Desert, "share/Desert.png");
+    textures_holder_.Load_(Textures::Eagle, "share/Eagle.png");
+    textures_holder_.Load_(Textures::Raptor, "share/Raptor.png");
+    textures_holder_.Load_(Textures::Desert, "share/Desert.png");
 }
 
 void Scene::buildScene()
@@ -30,58 +30,58 @@ void Scene::buildScene()
     for (std::size_t i = 0; i < LayerCount; ++i)
     {
         SceneNode::Ptr layer(new SceneNode());
-        mSceneLayers[i] = layer.get();
-        mSceneGraph.attachChild(std::move(layer));
+        scene_layers_[i] = layer.get();
+        sequences_root_.attachChild(std::move(layer));
     }
 
-    sf::Texture& texture = mTextures.Get_(Textures::Desert);
-    sf::IntRect textureRect(mSceneBounds);
+    sf::Texture& texture = textures_holder_.Get_(Textures::Desert);
+    sf::IntRect textureRect(scene_bounds_);
     texture.setRepeated(true);
 
     std::unique_ptr<Element> backgroundSprite(new Element(texture, textureRect));
-    backgroundSprite->setPosition(mSceneBounds.left, mSceneBounds.top);
-    mSceneLayers[Background]->attachChild(std::move(backgroundSprite));
+    backgroundSprite->setPosition(scene_bounds_.left, scene_bounds_.top);
+    scene_layers_[Background]->attachChild(std::move(backgroundSprite));
 
-    std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, mTextures));
-    mPlayerAircraft = leader.get();
-    mPlayerAircraft->setPosition(mSpawnPosition);
-    mPlayerAircraft->set_velocity(0.f, mScrollSpeed);
-    mSceneLayers[Air]->attachChild(std::move(leader));
+    std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, textures_holder_));
+    player_ = leader.get();
+    player_->setPosition(spawn_position_);
+    player_->set_velocity(0.f, scroll_velocity_);
+    scene_layers_[Air]->attachChild(std::move(leader));
 
-    std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures));
+    std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, textures_holder_));
     leftEscort->setPosition(-80.f, 50.f);
-    mPlayerAircraft->attachChild(std::move(leftEscort));
+    player_->attachChild(std::move(leftEscort));
 
-    std::unique_ptr<Aircraft> rightEscort(new Aircraft(Aircraft::Raptor, mTextures));
+    std::unique_ptr<Aircraft> rightEscort(new Aircraft(Aircraft::Raptor, textures_holder_));
     rightEscort->setPosition(80.f, 50.f);
-    mPlayerAircraft->attachChild(std::move(rightEscort));
+    player_->attachChild(std::move(rightEscort));
 }
 
 void Scene::draw()
 {
-    mWindow.setView(mSceneView);
-    mWindow.draw(mSceneGraph);
+    render_window_.setView(scene_view_);
+    render_window_.draw(sequences_root_);
 }
 
 void Scene::update(sf::Time dt)
 {
-    mSceneView.move(0.f, mScrollSpeed * dt.asSeconds());
-    sf::Vector2f position = mPlayerAircraft->getPosition();
-    sf::Vector2f velocity = mPlayerAircraft->get_velocity();
+    scene_view_.move(0.f, scroll_velocity_ * dt.asSeconds());
+    sf::Vector2f position = player_->getPosition();
+    sf::Vector2f velocity = player_->get_velocity();
 
     std::cout << "\nPosition is: (" << position.x << "," << position.y << ")";
     std::cout << "\nVelocity is: (" << velocity.x << "," << velocity.y << ")";
 
-    if (position.x <= mSceneBounds.left + 150 || position.x >= mSceneBounds.left + mSceneBounds.width - 150)
+    if (position.x <= scene_bounds_.left + 150 || position.x >= scene_bounds_.left + scene_bounds_.width - 150)
     {
         velocity.x = -velocity.x;
-        mPlayerAircraft->set_velocity(velocity);
-        mPlayerAircraft->updateCurrent(dt);
+        player_->set_velocity(velocity);
+        player_->updateCurrent(dt);
     }
-    mSceneGraph.update(dt);
+    sequences_root_.update(dt);
 }
 
-Aircraft* Scene::get_mPlayerAircraft() const
+Aircraft* Scene::get_player() const
 {
-    return mPlayerAircraft;
+    return player_;
 }
