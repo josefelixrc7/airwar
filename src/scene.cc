@@ -13,19 +13,19 @@ Scene::Scene(sf::RenderWindow& window)
     player_(nullptr)
 {
     scroll_velocity_ = -100.f;
-    loadTextures();
-    buildScene();
+    LoadTextures_();
+    BuildScene_();
     scene_view_.setCenter(spawn_position_);
 }
 
-void Scene::loadTextures()
+void Scene::LoadTextures_()
 {
     textures_holder_.Load_(Textures::Eagle, "share/Eagle.png");
     textures_holder_.Load_(Textures::Raptor, "share/Raptor.png");
     textures_holder_.Load_(Textures::Desert, "share/Desert.png");
 }
 
-void Scene::buildScene()
+void Scene::BuildScene_()
 {
     for (std::size_t i = 0; i < LayerCount; ++i)
     {
@@ -57,13 +57,13 @@ void Scene::buildScene()
     player_->attachChild(std::move(rightEscort));
 }
 
-void Scene::draw()
+void Scene::Draw_()
 {
     render_window_.setView(scene_view_);
     render_window_.draw(sequences_root_);
 }
 
-void Scene::update(sf::Time dt)
+void Scene::Update_(sf::Time dt)
 {
     scene_view_.move(0.f, scroll_velocity_ * dt.asSeconds());
     sf::Vector2f position = player_->getPosition();

@@ -26,7 +26,7 @@ class Game
 		bool is_moving_up_, is_moving_down_, is_moving_left_, is_moving_right_;
 		sf::Vector2f player_velocity_;
 		sf::Time time_per_frame_;
-		Scene mWorld;
+		Scene scene_world_;
 };
 
 #endif // GAME_H

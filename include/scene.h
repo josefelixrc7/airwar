@@ -15,15 +15,10 @@ class Scene : private sf::NonCopyable
     public:
         explicit Scene(sf::RenderWindow& window);
 
-        void update(sf::Time dt);
-        void draw();
+        void Update_(sf::Time dt);
+        void Draw_();
 
-    public:
         Aircraft* get_player() const;
-
-    private:
-        void loadTextures();
-        void buildScene();
 
     private:
         enum Layer
@@ -33,7 +28,10 @@ class Scene : private sf::NonCopyable
             LayerCount
         };
 
-    private:
+        void LoadTextures_();
+        void BuildScene_();
+
+
         sf::RenderWindow&   render_window_;
         sf::View            scene_view_;
         TextureHolder       textures_holder_;

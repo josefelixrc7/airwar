@@ -3,7 +3,7 @@
 
 Game::Game() :
 	render_window_(sf::VideoMode(1080, 720), "SFML Application"),
-	mWorld(render_window_)
+	scene_world_(render_window_)
 {
 	player_velocity_.x = 300.f;
 	player_velocity_.y = 300.f;
@@ -50,7 +50,7 @@ void Game::ProcessEvents_()
 
 void Game::Update_(sf::Time deltaTime)
 {
-    mWorld.update(time_per_frame_);
+    scene_world_.Update_(time_per_frame_);
 
 	sf::Vector2f movement(0.f, 0.f);
 	if(is_moving_up_)
@@ -61,13 +61,13 @@ void Game::Update_(sf::Time deltaTime)
 		movement.x -= player_velocity_.x;
 	if(is_moving_right_)
 		movement.x += player_velocity_.x;
-	mWorld.get_player()->move(movement * deltaTime.asSeconds());
+	scene_world_.get_player()->move(movement * deltaTime.asSeconds());
 }
 
 void Game::Render_()
 {
     render_window_.clear();
-    mWorld.draw();
+    scene_world_.Draw_();
     render_window_.setView(render_window_.getDefaultView());
     render_window_.display();
 }
