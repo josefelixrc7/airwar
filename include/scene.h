@@ -20,23 +20,27 @@ class Scene : private sf::NonCopyable
 
         Aircraft* get_player() const;
 
-    private:
+	protected:
         enum Layer
         {
-            Background,
-            Air,
-            LayerCount
+            kBackground,
+            kAir,
+            kLayerCount
         };
 
         void LoadTextures_();
         void BuildScene_();
+		void FillLayers_();
+		void CreateElements_();
+		void CreateCharacters_();
 
+    private:
 
         sf::RenderWindow& render_window_;
         sf::View scene_view_;
         TextureHolder textures_holder_;
         SequenceTree sequences_root_;
-        std::array<SequenceTree*, LayerCount> scene_layers_;
+        std::array<SequenceTree*, kLayerCount> scene_layers_;
         sf::FloatRect scene_bounds_;
         sf::Vector2f spawn_position_;
         float scroll_velocity_;
