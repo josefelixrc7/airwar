@@ -1,20 +1,20 @@
 #include "element.h"
 
-Element::Element(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& textures) :
+Element::Element(ResourcesID::Elements type, ResourceTexture& textures) :
     type_(type),
     sprite_(textures.Get_(type_))
 {
 
 }
 
-Element::Element(Textures::ID type, sf::Texture& texture) :
+Element::Element(ResourcesID::Elements type, sf::Texture& texture) :
     type_(type),
     sprite_(texture)
 {
 
 }
 
-Element::Element(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& textures, const sf::IntRect& rect) :
+Element::Element(ResourcesID::Elements type, ResourceTexture& textures, const sf::IntRect& rect) :
     type_(type),
     sprite_(textures.Get_(type), rect)
 {

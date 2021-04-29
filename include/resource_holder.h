@@ -3,17 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace Textures
+struct ResourcesID
 {
-	enum ID
+	enum Elements
 	{
 	    kSky,
 	    kMountains1,
-	    kMountains2,
+	    kMountains2
+    };
+	enum Characters
+	{
 	    kAircraftEagle,
 	    kRaptorEnemy
     };
-}
+};
 
 template <class Resource, class Identifier>
 class ResourceHolder

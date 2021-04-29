@@ -38,7 +38,8 @@ class Scene : private sf::NonCopyable
 
         sf::RenderWindow& render_window_;
         sf::View scene_view_;
-        ResourceHolder<sf::Texture, Textures::ID> textures_holder_;
+        ResourceHolder<sf::Texture, ResourcesID::Elements> textures_elements_;
+        ResourceHolder<sf::Texture, ResourcesID::Characters> textures_characters_;
         SequenceTree sequences_root_;
         std::array<SequenceTree*, kLayerCount> scene_layers_;
         sf::FloatRect scene_bounds_;

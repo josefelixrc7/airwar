@@ -11,9 +11,11 @@
 class Element : public SequenceTree
 {
     public:
-		Element(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& textures);
-		Element(Textures::ID type, sf::Texture& texture);
-		Element(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& texture, const sf::IntRect& rect);
+    	typedef ResourceHolder<sf::Texture, ResourcesID::Elements> ResourceTexture;
+
+		Element(ResourcesID::Elements type, ResourceTexture& textures);
+		Element(ResourcesID::Elements type, sf::Texture& texture);
+		Element(ResourcesID::Elements type, ResourceTexture& texture, const sf::IntRect& rect);
 
 		sf::Vector2f get_velocity() const;
 
@@ -27,7 +29,7 @@ class Element : public SequenceTree
 
     private:
     	sf::Vector2f velocity_;
-    	Textures::ID type_;
+    	ResourcesID::Elements type_;
         sf::Sprite sprite_;
 };
 

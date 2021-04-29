@@ -10,14 +10,16 @@
 class Aircraft : public Character
 {
     public:
-		Aircraft(Textures::ID type, ResourceHolder<sf::Texture, Textures::ID>& textures);
-		Aircraft(Textures::ID type, sf::Texture& texture);
+    	typedef ResourceHolder<sf::Texture, ResourcesID::Characters> ResourceTexture;
+
+		Aircraft(ResourcesID::Characters type, ResourceTexture& textures);
+		Aircraft(ResourcesID::Characters type, sf::Texture& texture);
 		virtual ~Aircraft();
 
         virtual void DrawCurrent_(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	private:
-		Textures::ID type_;
+		ResourcesID::Characters type_;
         sf::Sprite sprite_;
 };
 #endif // AIRCRAFT_H
