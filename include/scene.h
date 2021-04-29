@@ -15,8 +15,9 @@ class Scene : private sf::NonCopyable
     public:
         explicit Scene(sf::RenderWindow& window);
 
-        void Update_(sf::Time dt);
+        void Update_(sf::Time delta_time);
         void Draw_();
+		void HandlePlayerInput_(sf::Keyboard::Key key, bool is_pressed);
 
         Aircraft* get_player() const;
 
@@ -35,6 +36,11 @@ class Scene : private sf::NonCopyable
 		void CreateCharacters_();
 
     private:
+    	struct
+    	{
+    		bool is_moving_up_, is_moving_down_, is_moving_left_, is_moving_right_;
+			sf::Vector2f player_velocity_;
+    	} player_settings_;
 
         sf::RenderWindow& render_window_;
         sf::View scene_view_;

@@ -12,8 +12,11 @@ Scene::Scene(sf::RenderWindow& window)
     ),
     player_(nullptr)
 {
+	player_settings_.player_velocity_.x = 300.f;
+	player_settings_.player_velocity_.y = 300.f;
     scroll_velocity_.x = 100.f;
     scroll_velocity_.y = 0.f;
+
     LoadTextures_();
     BuildScene_();
     scene_view_.setCenter(spawn_position_);
@@ -27,20 +30,25 @@ Aircraft* Scene::get_player() const
 void Scene::Update_(sf::Time delta_time)
 {
     scene_view_.move(scroll_velocity_.x * delta_time.asSeconds(), 0.f);
-    sf::Vector2f position = player_->getPosition();
-    sf::Vector2f velocity = player_->get_velocity();
 
-    std::cout << "\nPosition is: (" << position.x << "," << position.y << ")";
-    std::cout << "\nVelocity is: (" << velocity.x << "," << velocity.y << ")";
+    //if (player_->getPosition().y > scene_bounds_.top + 150 || player_->getPosition().y < scene_bounds_.top + scene_bounds_.height - 150)
+	//{
+		sf::Vector2f new_velocity(0.f, 0.f);
+		if(player_settings_.is_moving_up_)
+			new_velocity.y -= player_settings_.player_velocity_.y;
+		if(player_settings_.is_moving_down_)
+			new_velocity.y += player_settings_.player_velocity_.y;
+		if(player_settings_.is_moving_left_)
+			new_velocity.x -= player_settings_.player_velocity_.x;
+		if(player_settings_.is_moving_right_)
+			new_velocity.x += player_settings_.player_velocity_.x;
+		player_->move(new_velocity * delta_time.asSeconds());
+    //}
+
+    std::cout << "\nPosition is: (" << player_->getPosition().x << "," << player_->getPosition().y << ")";
+    std::cout << "\nVelocity is: (" << player_->get_velocity().x << "," << player_->get_velocity().y << ")";
     std::cout << "\nSceneView xy (" << scene_view_.getSize().x << "," << scene_view_.getSize().y << ")";
     std::cout << "\nSceneBounds width, height (" << scene_bounds_.width << "," << scene_bounds_.height << ")";
-
-    if (position.y <= scene_bounds_.top + 150 || position.y >= scene_bounds_.top + scene_bounds_.height - 150)
-    {
-        velocity.y = -velocity.y;
-        player_->set_velocity(velocity);
-        player_->UpdateCurrent_(delta_time);
-    }
 
     sequences_root_.Update_(delta_time);
 }
@@ -49,6 +57,18 @@ void Scene::Draw_()
 {
     render_window_.setView(scene_view_);
     render_window_.draw(sequences_root_);
+}
+
+void Scene::HandlePlayerInput_(sf::Keyboard::Key key, bool is_pressed)
+{
+	if (key == sf::Keyboard::W)
+		player_settings_.is_moving_up_ = is_pressed;
+	else if (key == sf::Keyboard::S)
+		player_settings_.is_moving_down_ = is_pressed;
+	else if (key == sf::Keyboard::A)
+		player_settings_.is_moving_left_ = is_pressed;
+	else if (key == sf::Keyboard::D)
+		player_settings_.is_moving_right_ = is_pressed;
 }
 
 void Scene::LoadTextures_()
